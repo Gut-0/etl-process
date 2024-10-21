@@ -1,0 +1,6 @@
+[postgres]
+dbname="pb_dw"
+user="postgres"
+password="postgres"
+host="postgresdb"
+port="5432"

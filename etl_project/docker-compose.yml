@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  postgresdb:
+    restart: always
+    networks:
+      - pb_nt
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./environments/postgres.env
+    volumes:
+      - ./postgres_init/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+  python_app:
+    networks:
+      - pb_nt
+    build:
+      context: python_etl/
+      dockerfile: Dockerfile
+    depends_on:
+      - postgresdb
+    volumes:
+      - ./python_etl:/python_etl
+
+
+networks:
+  pb_nt:
